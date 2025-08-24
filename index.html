@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>String Utilities Playground</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        color: #2575fc;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #6a11cb;
+        margin-bottom: 20px;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .input-section,
+      .output-section {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #2575fc;
+        border-bottom: 2px solid #6a11cb;
+        padding-bottom: 10px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #6a11cb;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #2575fc;
+        outline: none;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .checkbox-group input {
+        width: auto;
+      }
+
+      button {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .output {
+        margin-top: 20px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #2575fc;
+      }
+
+      .output-item {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .output-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .output-title {
+        font-weight: 600;
+        color: #6a11cb;
+        margin-bottom: 5px;
+      }
+
+      .output-value {
+        font-size: 1.1rem;
+        color: #333;
+        word-break: break-word;
+      }
+
+      .function-info {
+        margin-top: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .info-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #6a11cb;
+      }
+
+      .info-card h3 {
+        color: #2575fc;
+        margin-bottom: 10px;
+      }
+
+      .info-card p {
+        color: #555;
+      }
+
+      .info-card code {
+        background: #eee;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        color: white;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>String Utilities Playground</h1>
+        <p class="subtitle">
+          Test and experiment with various string manipulation functions
+        </p>
+      </header>
+
+      <div class="main-content">
+        <div class="input-section">
+          <h2>Input</h2>
+
+          <div class="input-group">
+            <label for="inputString">Your Text</label>
+            <textarea id="inputString" placeholder="Enter text to transform">
+hello world! this is a string utilities demonstration. don't miss it!</textarea
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="maxLength">Truncate Length</label>
+            <input type="number" id="maxLength" value="30" min="1" />
+          </div>
+
+          <div class="input-group">
+            <label for="suffix">Truncation Suffix</label>
+            <input type="text" id="suffix" value="..." />
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="preserveCase" />
+            <label for="preserveCase"
+              >Preserve original case (for capitalize functions)</label
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="skipPattern">Skip Pattern (regex or function)</label>
+            <input
+              type="text"
+              id="skipPattern"
+              placeholder="e.g., and|or|the"
+            />
+          </div>
+
+          <button id="transformBtn">Transform Text</button>
+        </div>
+
+        <div class="output-section">
+          <h2>Output</h2>
+          <div class="output">
+            <div class="output-item">
+              <div class="output-title">Capitalize (first letter):</div>
+              <div class="output-value" id="outputCapitalize">-</div>
+            </div>
+
+            <div class="output-item">
+              <div class="output-title">Capitalize Words (all):</div>
+              <div class="output-value" id="outputCapitalizeWords">-</div>
+            </div>
+
+            <div class="output-item">
+              <div class="output-title">Capitalize.words (advanced):</div>
+              <div class="output-value" id="outputCapitalizeAdvanced">-</div>
+            </div>
+
+            <div class="output-item">
+              <div class="output-title">Truncate:</div>
+              <div class="output-value" id="outputTruncate">-</div>
+            </div>
+
+            <div class="output-item">
+              <div class="output-title">Slugify:</div>
+              <div class="output-value" id="outputSlugify">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="function-info">
+        <h2>Function Documentation</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>capitalize(str, opts)</h3>
+            <p>Capitalizes the first letter of a string.</p>
+            <p><code>capitalize('hello') → 'Hello'</code></p>
+          </div>
+
+          <div class="info-card">
+            <h3>capitalize.words(str, opts)</h3>
+            <p>Capitalizes each word in a string with advanced options.</p>
+            <p><code>capitalize.words('hello world') → 'Hello World'</code></p>
+          </div>
+
+          <div class="info-card">
+            <h3>capitalizeWords(str)</h3>
+            <p>Simple capitalization for words split by space.</p>
+            <p><code>capitalizeWords('hello world') → 'Hello World'</code></p>
+          </div>
+
+          <div class="info-card">
+            <h3>truncate(str, maxLength, suffix)</h3>
+            <p>
+              Truncates a string and appends a suffix if it exceeds maxLength.
+            </p>
+            <p><code>truncate('Hello world', 8) → 'Hello...'</code></p>
+          </div>
+
+          <div class="info-card">
+            <h3>slugify(str)</h3>
+            <p>Converts a string to a URL-friendly slug.</p>
+            <p><code>slugify('Hello World!') → 'hello-world'</code></p>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>String Utilities Playground &copy; 2023</p>
+      </footer>
+    </div>
+
+    <script>
+      // Implementation of the provided utility functions
+      const QUOTE = /['"`’]/;
+      const WORD = /[0-9a-zA-Z\u00C0-\u017F\u0400-\u04FF]/;
+
+      function normalizeOptions(opts) {
+        if (!opts) return { preserve: false };
+        if (typeof opts === "boolean") return { preserve: opts };
+        if (opts.skipWord instanceof RegExp) {
+          const rgx = opts.skipWord;
+          opts.skipWord = (word, position) => position > 0 && rgx.test(word);
+        }
+        return opts;
+      }
+
+      function capitalize(str, opts) {
+        opts = normalizeOptions(opts);
+        if (!opts.preserve) str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      capitalize.words = function (str, opts) {
+        opts = normalizeOptions(opts);
+        if (!opts.preserve) str = str.toLowerCase();
+
+        const nonWord = /[^0-9a-zA-Z\u00C0-\u017F\u0400-\u04FF]+|$/g;
+        let startOfWord = 0;
+        let match = null;
+        let out = "";
+        let count = 0;
+
+        while ((match = nonWord.exec(str))) {
+          const sep = match[0];
+          const sepStart = nonWord.lastIndex - sep.length;
+
+          if (QUOTE.test(str[sepStart]) && WORD.test(str[sepStart + 1])) {
+            continue;
+          }
+
+          let word = str.substring(startOfWord, sepStart);
+
+          if (QUOTE.test(word[0])) {
+            out += word[0];
+            word = word.slice(1);
+          }
+
+          if (
+            typeof opts.skipWord === "function" &&
+            opts.skipWord(word, count)
+          ) {
+            out += word;
+          } else {
+            out += capitalize(word, opts);
+          }
+
+          out += sep;
+          startOfWord = nonWord.lastIndex;
+          count++;
+
+          if (startOfWord === str.length) break;
+        }
+
+        return out;
+      };
+
+      function capitalizeWords(str) {
+        return str
+          .split(" ")
+          .map((word) => capitalize(word))
+          .join(" ");
+      }
+
+      function truncate(str, maxLength, suffix = "...") {
+        return str.length <= maxLength ? str : str.slice(0, maxLength) + suffix;
+      }
+
+      function slugify(str) {
+        return str
+          .toLowerCase()
+          .trim()
+          .replace(/[\s\W-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
+      // DOM interaction
+      document.addEventListener("DOMContentLoaded", function () {
+        const inputString = document.getElementById("inputString");
+        const maxLength = document.getElementById("maxLength");
+        const suffix = document.getElementById("suffix");
+        const preserveCase = document.getElementById("preserveCase");
+        const skipPattern = document.getElementById("skipPattern");
+        const transformBtn = document.getElementById("transformBtn");
+
+        const outputCapitalize = document.getElementById("outputCapitalize");
+        const outputCapitalizeWords = document.getElementById(
+          "outputCapitalizeWords"
+        );
+        const outputCapitalizeAdvanced = document.getElementById(
+          "outputCapitalizeAdvanced"
+        );
+        const outputTruncate = document.getElementById("outputTruncate");
+        const outputSlugify = document.getElementById("outputSlugify");
+
+        function transformText() {
+          const text = inputString.value;
+          const opts = {
+            preserve: preserveCase.checked,
+          };
+
+          // Set up skipWord function if pattern is provided
+          if (skipPattern.value.trim()) {
+            const pattern = skipPattern.value.trim();
+            try {
+              // Try to create a regex from the input
+              const regex = new RegExp(pattern, "i");
+              opts.skipWord = (word, position) =>
+                position > 0 && regex.test(word);
+            } catch (e) {
+              console.error("Invalid regex pattern:", e);
+            }
+          }
+
+          // Apply all transformations
+          outputCapitalize.textContent = capitalize(text, opts);
+          outputCapitalizeWords.textContent = capitalizeWords(text);
+          outputCapitalizeAdvanced.textContent = capitalize.words(text, opts);
+          outputTruncate.textContent = truncate(
+            text,
+            parseInt(maxLength.value),
+            suffix.value
+          );
+          outputSlugify.textContent = slugify(text);
+        }
+
+        // Initial transformation
+        transformText();
+
+        // Event listeners
+        transformBtn.addEventListener("click", transformText);
+
+        inputString.addEventListener("input", transformText);
+        maxLength.addEventListener("input", transformText);
+        suffix.addEventListener("input", transformText);
+        preserveCase.addEventListener("change", transformText);
+        skipPattern.addEventListener("input", transformText);
+      });
+    </script>
+  </body>
+</html>
